@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Test/TestMCManager.h"
-#include "Test/TestCaloHitManager.h"
+#include "TestMCManager.h"
+#include "TestCaloHitManager.h"
 
 int main(){
    std::cout << "--- TEST : MCManager | START ----------------------------------" << std::endl;

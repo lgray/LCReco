@@ -10,9 +10,9 @@
 
 #include "Objects/MCParticle.h"
 
-#include "Test/TestMCManager.h"
-
 #include "Pandora/Pandora.h"
+
+#include "TestMCManager.h"
 
 #include <assert.h>
 #include <iostream>

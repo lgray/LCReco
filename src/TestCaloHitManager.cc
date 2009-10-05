@@ -12,8 +12,8 @@
 #include "Objects/MCParticle.h"
 #include "Objects/CaloHit.h"
 
-#include "Test/TestCaloHitManager.h"
-#include "Test/TestMCManager.h"
+#include "TestCaloHitManager.h"
+#include "TestMCManager.h"
 
 #include <assert.h>
 #include <iostream>
