@@ -1,9 +1,9 @@
 /**
- *	@file	PandoraPFANew/src/Test/TestCaloHitManager.cc
+ *  @file   TestPandora/src/TestCaloHitManager.cc
  * 
- * 	@brief	Implementation of the tester for the mc manager class.
+ *  @brief  Implementation of the tester for the calo hit manager class.
  * 
- *	$Log: $
+ *  $Log: $
  */
 
 #include "Managers/CaloHitManager.h"

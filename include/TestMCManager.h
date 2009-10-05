@@ -1,9 +1,9 @@
 /**
- *	@file	PandoraPFANew/include/Test/TestMCManager.h
+ *  @file   TestPandora/include/TestMCManager.h
  * 
- *	@brief	Header file for the MCManager test-class.
+ *  @brief  Header file for the MCManager test-class.
  * 
- *	$Log: $
+ *  $Log: $
  */
 #ifndef TEST_MC_MANAGER_H
 #define TEST_MC_MANAGER_H 1
@@ -23,7 +23,7 @@ namespace pandora
 {
 
 /**
- *	@brief TestMCManager class
+ *  @brief TestMCManager class
  */
 class TestMCManager
 {

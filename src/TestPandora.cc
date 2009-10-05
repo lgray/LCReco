@@ -1,9 +1,18 @@
-#include <iostream>
+/**
+ *  @file   TestPandora/src/TestPandora.cc
+ * 
+ *  @brief  The test pandora application entry point.
+ * 
+ *  $Log: $
+ */
 
 #include "TestMCManager.h"
 #include "TestCaloHitManager.h"
 
-int main(){
+#include <iostream>
+
+int main()
+{
    std::cout << "--- TEST : MCManager | START ----------------------------------" << std::endl;
    pandora::TestMCManager* testMcManager = new pandora::TestMCManager();
    testMcManager->Test_All();
@@ -17,4 +26,4 @@ int main(){
 
    delete testCaloHitManager;
    std::cout << "--- TEST : CaloHitManager | END ----------------------------------" << std::endl;
-} 
+}

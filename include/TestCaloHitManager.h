@@ -1,9 +1,9 @@
 /**
- *    @file    PandoraPFANew/include/Test/TestCaloHitManager.h
+ *  @file   TestPandora/include/TestCaloHitManager.h
  * 
- *    @brief    Header file for the CaloHitManager test-class.
+ *  @brief  Header file for the CaloHitManager test-class.
  * 
- *    $Log: $
+ *  $Log: $
  */
 #ifndef TEST_CALO_HIT_MANAGER_H
 #define TEST_CALO_HIT_MANAGER_H 1
@@ -18,7 +18,7 @@ namespace pandora
 {
 
 /**
- *    @brief TestCaloHitManager class
+ *  @brief TestCaloHitManager class
  */
 class TestCaloHitManager
 {

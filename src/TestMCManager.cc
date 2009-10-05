@@ -1,9 +1,9 @@
 /**
- *	@file	PandoraPFANew/src/Test/TestMCManager.cc
+ *  @file   TestPandora/src/TestMCManager.cc
  * 
- * 	@brief	Implementation of the tester for the mc manager class.
+ *  @brief  Implementation of the tester for the mc manager class.
  * 
- *	$Log: $
+ *  $Log: $
  */
 
 #include "Managers/MCManager.h"
