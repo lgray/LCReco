@@ -465,8 +465,7 @@ StatusCode TestMCManager::Test_All()
 void TestMCManager::PrintMCManagerData(const Pandora &pPandora, std::ostream & o)
 {
     MCManager* mcM = pPandora.m_pMCManager;
-    std::cout << std::endl;
-    std::cout << "================================================" << std::endl;
+    std::cout << "=== MCManager ==================================" << std::endl;
     std::cout << "m_uidToMCParticleMap   ";
     std::cout << "size : " << mcM->m_uidToMCParticleMap.size();
     int initialized = 0;
@@ -488,7 +487,6 @@ void TestMCManager::PrintMCManagerData(const Pandora &pPandora, std::ostream & o
     std::cout << "m_trackToMCParticleMap   ";
     std::cout << "size : " << mcM->m_trackToMCParticleMap.size() << std::endl;
     std::cout << "================================================" << std::endl;
-    std::cout << std::endl;
 }
 
 

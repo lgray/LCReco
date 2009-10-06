@@ -399,8 +399,7 @@ StatusCode TestCaloHitManager::Test_All()
 void TestCaloHitManager::PrintCaloHitManagerData(const Pandora &pPandora, std::ostream & o)
 {
     CaloHitManager* chM = pPandora.m_pCaloHitManager;
-    std::cout << std::endl;
-    std::cout << "================================================" << std::endl;
+    std::cout << "=== CaloHitManager =============================" << std::endl;
     std::cout << "m_inputCaloHitVector   ";
     std::cout << "size : " << chM->m_inputCaloHitVector.size();
     int haveMCParticle = 0;
@@ -410,7 +409,6 @@ void TestCaloHitManager::PrintCaloHitManagerData(const Pandora &pPandora, std::o
     }
     std::cout << "   have mc particle : " << haveMCParticle << std::endl;
     std::cout << "================================================" << std::endl;
-    std::cout << std::endl;
 }
 
 
