@@ -464,30 +464,65 @@ StatusCode TestMCManager::Test_All()
 
 void TestMCManager::PrintMCManagerData(const Pandora &pPandora, std::ostream & o)
 {
-    MCManager* mcM = pPandora.m_pMCManager;
+    const MCManager* mcM = pPandora.m_pMCManager;
+    PrintMCManagerData( mcM, o );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+void TestMCManager::PrintMCManagerData( const MCManager* mcM, std::ostream & o)
+{
     std::cout << "=== MCManager ==================================" << std::endl;
     std::cout << "m_uidToMCParticleMap   ";
     std::cout << "size : " << mcM->m_uidToMCParticleMap.size();
     int initialized = 0;
-    for( UidToMCParticleMap::iterator it = mcM->m_uidToMCParticleMap.begin(), itEnd = mcM->m_uidToMCParticleMap.end(); it != itEnd; ++it )
+    int isPfoTarget = 0;
+    int notPfoTarget = 0;
+    int isRoot      = 0;
+    int knowsPfoTarget = 0;
+    int isReallyPfoTarget = 0;
+    for( UidToMCParticleMap::const_iterator it = mcM->m_uidToMCParticleMap.begin(), itEnd = mcM->m_uidToMCParticleMap.end(); it != itEnd; ++it )
     {
         if( (*it).second->IsInitialized() ) ++initialized;
+        if( (*it).second->IsPfoTarget() )   ++isPfoTarget;
+        if( (*it).second->IsRootParticle() )++isRoot;
+        if( !(*it).second->IsPfoTarget() ){
+            ++notPfoTarget; 
+            MCParticle *pfoTarget = NULL;
+            (*it).second->GetPfoTarget(pfoTarget);
+            if( pfoTarget != NULL ) {
+                ++knowsPfoTarget; 
+                if( pfoTarget->IsPfoTarget() )  ++isReallyPfoTarget;   
+            }
+        }
     }
-    std::cout << "   initialized : " << initialized << std::endl;
+    std::cout << "   initialized : " << initialized;
+    std::cout << "   root : "        << isRoot;
+    std::cout << "   isPfoTarget : " << isPfoTarget;
+    std::cout << "   notPfoTarget : "<< notPfoTarget;
+    std::cout << "   but knows it's pfoTarget : "<< knowsPfoTarget;
+    std::cout << "   (is really one) : "<< isReallyPfoTarget << std::endl;
 
     std::cout << "m_caloHitToMCParticleMap   ";
     std::cout << "size : " << mcM->m_caloHitToMCParticleMap.size();
     int haveMCParticle = 0;
-    for( MCManager::UidRelationMap::iterator it = mcM->m_caloHitToMCParticleMap.begin(), itEnd = mcM->m_caloHitToMCParticleMap.end(); it != itEnd; ++it )
+    isPfoTarget = 0;
+    int notInMap = 0;
+    for( MCManager::UidRelationMap::const_iterator it = mcM->m_caloHitToMCParticleMap.begin(), itEnd = mcM->m_caloHitToMCParticleMap.end(); it != itEnd; ++it )
     {
-        if( mcM->m_uidToMCParticleMap.end() != mcM->m_uidToMCParticleMap.find( (*it).second.m_uid ) ) ++haveMCParticle;
+        if( mcM->m_uidToMCParticleMap.end() != mcM->m_uidToMCParticleMap.find( (*it).second.m_uid ) ) {
+            ++haveMCParticle;
+            if( mcM->m_uidToMCParticleMap.find( (*it).second.m_uid )->second->IsPfoTarget() ) ++isPfoTarget;
+        }else
+            ++notInMap;
     }
-    std::cout << "   have valid mcparticle : " << haveMCParticle << std::endl;
+    std::cout << "   calohits with mcparticles in m_uidToMCParticleMap : " << haveMCParticle << "   of which isPfoTarget : " << isPfoTarget << "  not in map: " << notInMap << std::endl;
     
     std::cout << "m_trackToMCParticleMap   ";
     std::cout << "size : " << mcM->m_trackToMCParticleMap.size() << std::endl;
     std::cout << "================================================" << std::endl;
 }
+
 
 
 
@@ -598,7 +633,7 @@ void TestMCManager::PrintMCParticle( MCParticle* mcParticle, std::ostream & o, i
         {
             if( (*itParent) != parent )
             {
-                o << std::setw(printDepth) << " " << whiteonblue << "PARENT=" << (*itParent) << reset << std::endl;
+                o << std::setw(printDepth) << " " << whiteonblue << "PARENT=" << (*itParent)->GetUid() << reset << std::endl;
             }
         }
 
@@ -610,5 +645,56 @@ void TestMCManager::PrintMCParticle( MCParticle* mcParticle, std::ostream & o, i
         }
     }
 }
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+bool TestMCManager::CheckMCParticleTree(MCParticle* mcParticle, std::ostream & o, std::set<MCParticle*>& mcParticlesInTree )
+{
+    if( !mcParticlesInTree.insert( mcParticle ).second )
+    {
+        // particle already present --> there is a loop in the particle tree
+        o << "MCParticle tree has a loop " << mcParticle << std::endl;
+        return false;
+    }
+    
+    if( mcParticle->m_parentList.empty() ) throw mcParticle; // found the ROOT particle --> throw it
+
+    // go through all parents
+    bool ret = true;
+    for( MCParticleList::iterator itParent = mcParticle->m_parentList.begin(), itParentEnd = mcParticle->m_parentList.end(); itParent != itParentEnd; ++itParent )
+    {
+        try{
+            ret &= CheckMCParticleTree( (*itParent), o, mcParticlesInTree );
+        } catch( MCParticle* mcp ){
+//            std::cout << "found a root-particle" << std::endl;
+            return true;
+        }
+        if( !ret ){
+            o << "loop detected when going through parents and no root-particle found" << std::endl;
+        }
+        return ret;
+    }
+
+    // go through all daughters
+    ret = true;
+    for( MCParticleList::iterator itDaughter = mcParticle->m_daughterList.begin(), itDaughterEnd = mcParticle->m_daughterList.end(); itDaughter != itDaughterEnd; ++itDaughter )
+    {
+        try{
+            ret &= CheckMCParticleTree( (*itDaughter), o, mcParticlesInTree );
+        }catch( MCParticle *mcp ){
+            std::cout << "daughter particle with empty parent list found" << std::endl;
+            return false;
+        }
+        if( !ret ){
+            o << "loop detected when going through daughters" << std::endl;
+        }
+        return ret;
+    }
+
+    return true;
+}
+
+
 
 } // namespace pandora

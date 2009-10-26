@@ -79,6 +79,15 @@ public:
     static void PrintMCManagerData(const Pandora &pPandora, std::ostream & o);
 
     /**
+     *  @brief  prints the datea members of the MCManager (sizes, initialization state, ...)
+     *
+     *  @param  mcM MCManager object of which the mc particle trees are printed
+     *  @param  o the output stream to which everything is printed
+     */
+    static void PrintMCManagerData( const MCManager* mcM, std::ostream & o);
+
+
+    /**
      *  @brief  print the MCParticle trees
      *  @param  pPandora Pandora object of which the mc particle trees are printed
      *  @param  o the output stream to which everything is printed
@@ -113,6 +122,17 @@ public:
      */
     static void PrintMCParticle(MCParticle* mcParticle, std::ostream & o, int depth, int maxDepthAfterPfoTarget = 100000, 
         const MCParticle* parent = NULL, int stepSize = 2);
+
+
+    /**
+     *  @brief  Check MCParticle-tree consistency
+     * 
+     *  @param mcParticle mc particle of which the mc particle tree is checked
+     *  @param o output-stream where the information is written to
+     */
+    static bool CheckMCParticleTree(MCParticle* mcParticle, std::ostream & o, std::set<MCParticle*>& mcParticlesInTree );
+
+
 };
 
 } // namespace pandora

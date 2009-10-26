@@ -32,7 +32,10 @@ StatusCode TestCaloHitManager::Test_CreateCaloHit()
 
     std::cout << "        create CaloHitParameters" << std::endl;
     PandoraApi::CaloHitParameters caloHitParameters;
-    caloHitParameters.m_energy = 10;
+    caloHitParameters.m_inputEnergy = 10;
+    caloHitParameters.m_mipEquivalentEnergy = 10;
+    caloHitParameters.m_electromagneticEnergy = 10;
+    caloHitParameters.m_hadronicEnergy = 10;
     caloHitParameters.m_time = 9.3;
     caloHitParameters.m_isDigital = false;
     caloHitParameters.m_hitType = HCAL;
@@ -213,7 +216,7 @@ StatusCode TestCaloHitManager::Test_MatchCaloHitsToMCPfoTargets()
 
     std::cout << "        create CaloHitParameters" << std::endl;
     PandoraApi::CaloHitParameters caloHitParameters;
-    caloHitParameters.m_energy = 10;
+    caloHitParameters.m_inputEnergy = 10;
     caloHitParameters.m_layer = 10;
     caloHitParameters.m_time = 9.3;
     caloHitParameters.m_isDigital = false;
@@ -227,23 +230,26 @@ StatusCode TestCaloHitManager::Test_MatchCaloHitsToMCPfoTargets()
     caloHitParameters.m_nRadiationLengths = 10.0;
     caloHitParameters.m_nInteractionLengths = 2.0;
     caloHitParameters.m_pParentAddress = (void*)9000;
+    caloHitParameters.m_mipEquivalentEnergy = 10;
+    caloHitParameters.m_electromagneticEnergy = 10;
+    caloHitParameters.m_hadronicEnergy = 10;
 
     std::cout << "        create CaloHit with parameters" << std::endl;
     assert( pCaloHitManager->CreateCaloHit( caloHitParameters ) == STATUS_CODE_SUCCESS ); 
 
-    caloHitParameters.m_energy = 11;
+    caloHitParameters.m_inputEnergy = 11;
     caloHitParameters.m_pParentAddress = (void*)9001;
     assert( pCaloHitManager->CreateCaloHit( caloHitParameters ) == STATUS_CODE_SUCCESS ); 
 
-    caloHitParameters.m_energy = 12;
+    caloHitParameters.m_inputEnergy = 12;
     caloHitParameters.m_pParentAddress = (void*)9002;
     assert( pCaloHitManager->CreateCaloHit( caloHitParameters ) == STATUS_CODE_SUCCESS ); 
 
-    caloHitParameters.m_energy = 13;
+    caloHitParameters.m_inputEnergy = 13;
     caloHitParameters.m_pParentAddress = (void*)9003;
     assert( pCaloHitManager->CreateCaloHit( caloHitParameters ) == STATUS_CODE_SUCCESS ); 
 
-    caloHitParameters.m_energy = 14;
+    caloHitParameters.m_inputEnergy = 14;
     caloHitParameters.m_pParentAddress = (void*)9004;
     assert( pCaloHitManager->CreateCaloHit( caloHitParameters ) == STATUS_CODE_SUCCESS ); 
 
@@ -263,6 +269,14 @@ StatusCode TestCaloHitManager::Test_MatchCaloHitsToMCPfoTargets()
     //  assert( caloHitToPfoTargetMap.size() == );
 
     pCaloHitManager->MatchCaloHitsToMCPfoTargets(caloHitToPfoTargetMap);
+
+    
+    std::cout << "        check if all mcparticles of the calohits are found in the list of mcparticles" << std::endl;
+    for( MCManager::UidRelationMap::iterator it = pMcManager->m_caloHitToMCParticleMap.begin(), itEnd = pMcManager->m_caloHitToMCParticleMap.end(); it != itEnd; ++it )
+    {
+       std::cout << "        (*it).second.m_uid " << std::dec << (*it).second.m_uid << std::endl;
+       assert( pMcManager->m_uidToMCParticleMap.end() != pMcManager->m_uidToMCParticleMap.find( (*it).second.m_uid ) );
+    }
 
     std::cout << "MCParticle trees" << std::endl;
     std::cout << "================" << std::endl;
@@ -398,16 +412,28 @@ StatusCode TestCaloHitManager::Test_All()
 
 void TestCaloHitManager::PrintCaloHitManagerData(const Pandora &pPandora, std::ostream & o)
 {
-    CaloHitManager* chM = pPandora.m_pCaloHitManager;
+    const CaloHitManager* chM = pPandora.m_pCaloHitManager;
+    PrintCaloHitManagerData( chM, o );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+void TestCaloHitManager::PrintCaloHitManagerData(const CaloHitManager* chM, std::ostream & o)
+{
     std::cout << "=== CaloHitManager =============================" << std::endl;
     std::cout << "m_inputCaloHitVector   ";
     std::cout << "size : " << chM->m_inputCaloHitVector.size();
     int haveMCParticle = 0;
-    for( CaloHitVector::iterator it = chM->m_inputCaloHitVector.begin(), itEnd = chM->m_inputCaloHitVector.end(); it != itEnd; ++it )
+    int isPfoTarget = 0;
+    int isNull = 0;
+    for( CaloHitVector::const_iterator it = chM->m_inputCaloHitVector.begin(), itEnd = chM->m_inputCaloHitVector.end(); it != itEnd; ++it )
     {
-        if( (*it)->m_pMCParticle != NULL ) ++haveMCParticle;
+        if( (*it)->m_pMCParticle != NULL ) {
+            ++haveMCParticle;
+            if( (*it)->m_pMCParticle->IsPfoTarget() ) ++isPfoTarget;
+        }else ++isNull;
     }
-    std::cout << "   have mc particle : " << haveMCParticle << std::endl;
+    std::cout << "   have mc particle : " << haveMCParticle << "   isPfoTarget : " << isPfoTarget << "   isNull : " << isNull << std::endl;
     std::cout << "================================================" << std::endl;
 }
 

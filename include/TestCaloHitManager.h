@@ -64,10 +64,18 @@ public:
     /**
      *  @brief  prints the data members of the CaloHitManager (sizes, initialization state, ...)
      *
-     *  @param  pPandora Pandora object of which the mc particle trees are printed
+     *  @param  pPandora Pandora object of which the calohit information is printed
      *  @param  o the output stream to which everything is printed
      */
     static void PrintCaloHitManagerData(const Pandora &pPandora, std::ostream & o);
+
+    /**
+     *  @brief  prints the data members of the CaloHitManager (sizes, initialization state, ...)
+     *
+     *  @param  chM CaloHitManager object of which the calohit information is printed
+     *  @param  o the output stream to which everything is printed
+     */
+    static void PrintCaloHitManagerData(const CaloHitManager* chM, std::ostream & o);
 
 };
 
