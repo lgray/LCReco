@@ -68,7 +68,7 @@ StatusCode TestMCManager::Test_CreateMCParticle()
     std::cout << "        create MCParticleParameters" << std::endl;
     PandoraApi::MCParticleParameters mcParticleParameters;
     mcParticleParameters.m_energy = 10;
-    mcParticleParameters.m_momentum = 12;
+    mcParticleParameters.m_momentum = CartesianVector( 12.0, 0.0, 0.0 );;
     mcParticleParameters.m_innerRadius = 0.1;
     mcParticleParameters.m_outerRadius = 40.5;
     mcParticleParameters.m_particleId = 13;
@@ -86,7 +86,7 @@ StatusCode TestMCManager::Test_CreateMCParticle()
     assert( mcParticle->IsRootParticle() == true ); // after creation, it MCParticle should be a root-particle (of a MC-tree with exactly one node)
     assert( mcParticle->IsPfoTarget() == false ); // after creation, the pfo-target should be NULL (not set)
     assert( mcParticle->GetEnergy() - 10 < epsilon );
-    assert( mcParticle->GetMomentum() - 12 < epsilon );
+    assert( mcParticle->GetMomentum().GetMagnitude() - 12 < epsilon );
     assert( mcParticle->GetInnerRadius() - 0.1 < epsilon );
     assert( mcParticle->GetOuterRadius() - 40.5 < epsilon );
     assert( mcParticle->GetParticleId() == 13 );
@@ -217,7 +217,7 @@ StatusCode TestMCManager::Test_CreateUidToPfoTargetMap()
     std::cout << "        create MCParticleParameters" << std::endl;
     PandoraApi::MCParticleParameters mcParticleParameters;
     mcParticleParameters.m_energy = 10;
-    mcParticleParameters.m_momentum = 12;
+    mcParticleParameters.m_momentum = CartesianVector( 12.0, 1.1, 2.2 );
     mcParticleParameters.m_innerRadius = 0.1;
     mcParticleParameters.m_outerRadius = 40.5;
     mcParticleParameters.m_particleId = 13;
@@ -346,7 +346,7 @@ StatusCode TestMCManager::Test_SelectPfoTargets()
 
     PandoraApi::MCParticleParameters mcParticleParameters;
     mcParticleParameters.m_energy = 10;
-    mcParticleParameters.m_momentum = 8;
+    mcParticleParameters.m_momentum = CartesianVector( 8.0, 1.1, 2.2 );;
     mcParticleParameters.m_innerRadius = 0.1;
     mcParticleParameters.m_outerRadius = 35.0;
     mcParticleParameters.m_particleId = 11;
