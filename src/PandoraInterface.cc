@@ -28,7 +28,7 @@ int main(int argc, const char *argv[])
         if (nArgs != 2)
         {
             std::cout << std::endl << "Usage: ./PandoraInterface geometry.pndr pandoraSettings.xml" << std::endl << std::endl;
-            exit(1);
+            return 1;
         }
 
         // Construct pandora instance
