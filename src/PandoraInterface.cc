@@ -7,7 +7,6 @@
  */
 
 #include "Api/PandoraApi.h"
-#include "Utilities/FileReader.h"
 
 #include "FineGranularityContent.h"
 #include "KMeansContent.h"
@@ -25,9 +24,9 @@ int main(int argc, const char *argv[])
         // Parse command line
         const int nArgs(argc - 1);
 
-        if (nArgs != 2)
+        if (nArgs != 1)
         {
-            std::cout << std::endl << "Usage: ./PandoraInterface geometry.pndr pandoraSettings.xml" << std::endl << std::endl;
+            std::cout << std::endl << "Usage: ./PandoraInterface pandoraSettings.xml" << std::endl << std::endl;
             return 1;
         }
 
@@ -49,13 +48,8 @@ int main(int argc, const char *argv[])
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::SetBFieldCalculator(*m_pPandora,
             new SimpleBFieldCalculator()));
 
-        // Pass geometry information to pandora
-        const std::string geometryFile(argv[1]);
-        pandora::FileReader fileReader(*m_pPandora, geometryFile);
-        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, fileReader.ReadGeometry());
-
         // Read in the PandoraSettings
-        const std::string settingsFile(argv[2]);
+        const std::string settingsFile(argv[1]);
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::ReadSettings(*m_pPandora, settingsFile));
 
         while (true)
