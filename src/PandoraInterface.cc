@@ -24,9 +24,9 @@ int main(int argc, const char *argv[])
         // Parse command line
         const int nArgs(argc - 1);
 
-        if (nArgs != 1)
+        if ((nArgs < 1) || (nArgs > 2))
         {
-            std::cout << std::endl << "Usage: ./PandoraInterface pandoraSettings.xml" << std::endl << std::endl;
+            std::cout << std::endl << "Usage: ./PandoraInterface PandoraSettings.xml [nEventsToProcess]" << std::endl << std::endl;
             return 1;
         }
 
@@ -52,7 +52,11 @@ int main(int argc, const char *argv[])
         const std::string settingsFile(argv[1]);
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::ReadSettings(*m_pPandora, settingsFile));
 
-        while (true)
+        // Process the events
+        const int nEventsToProcess((nArgs == 2) ? atoi(argv[2]) : -1);
+        int nEvents(0);
+
+        while ((nEvents++ < nEventsToProcess) || (0 > nEventsToProcess))
         {
             PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::ProcessEvent(*m_pPandora));
             PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::Reset(*m_pPandora));
