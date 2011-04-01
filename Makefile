@@ -1,9 +1,9 @@
 #Path to project directory
-PROJECT_DIR = YOUR_PATH_HERE
+PROJECT_DIR = /usera/marshall/ilcsoft_v01-11-pre02/TestPandora/
 
 #Paths to project dependencies
-PANDORAPFANEW_DIR = YOUR_PATH_HERE
-PANDORAMONITORING_DIR = YOUR_PATH_HERE
+PANDORAPFANEW_DIR = /usera/marshall/ilcsoft_v01-11-pre02/PandoraPFANew/
+PANDORAMONITORING_DIR = /usera/marshall/ilcsoft_v01-11-pre02/PandoraMonitoring/
 
 PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
 PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
@@ -12,8 +12,8 @@ PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
 INCLUDES  = -I$(PROJECT_INCLUDE_DIR)
 INCLUDES += -I$(PANDORAPFANEW_DIR)/Framework/include/
 INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/ -I$(PANDORAPFANEW_DIR)/KMeansContent/include/
-INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
 ifdef MONITORING
+    INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
     INCLUDES += -I$(PANDORAMONITORING_DIR)/include/
 endif
 
@@ -32,8 +32,8 @@ SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)*.cc)
 OBJECTS = $(SOURCES:.cc=.o)
 
 LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraFramework -lPandoraFineGranularityContent -lPandoraKMeansContent
-LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
 ifdef MONITORING
+    LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
     LIBS += -L$(PANDORAMONITORING_DIR)/lib -lPandoraMonitoring
 endif
 ifdef BUILD_32BIT_COMPATIBLE
