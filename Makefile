@@ -1,9 +1,9 @@
 #Path to project directory
-PROJECT_DIR = /usera/marshall/ilcsoft_v01-11-pre02/TestPandora/
+PROJECT_DIR = YOUR_PATH_HERE
 
 #Paths to project dependencies
-PANDORAPFANEW_DIR = /usera/marshall/ilcsoft_v01-11-pre02/PandoraPFANew/
-PANDORAMONITORING_DIR = /usera/marshall/ilcsoft_v01-11-pre02/PandoraMonitoring/
+PANDORAPFANEW_DIR = YOUR_PATH_HERE
+PANDORAMONITORING_DIR = YOUR_PATH_HERE
 
 PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
 PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
