@@ -1,9 +1,9 @@
 #Path to project directory
-PROJECT_DIR = YOUR_PATH_HERE
+PROJECT_DIR = /usera/marshall/ilcsoft_v01-11-pre02/TestPandora2/
 
 #Paths to project dependencies
-PANDORAPFANEW_DIR = YOUR_PATH_HERE
-PANDORAMONITORING_DIR = YOUR_PATH_HERE
+PANDORAPFANEW_DIR = /usera/marshall/ilcsoft_v01-11-pre02/PandoraPFANew/
+PANDORAMONITORING_DIR = /usera/marshall/ilcsoft_v01-11-pre02/PandoraMonitoring/
 
 PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
 PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
@@ -17,8 +17,8 @@ ifdef MONITORING
     INCLUDES += -I$(PANDORAMONITORING_DIR)/include/
 endif
 
-CC = gcc
-CFLAGS = -c -Wall -g -w -fPIC
+CC = g++
+CFLAGS = -c -Wall -g -w -fPIC -O2
 CFLAGS += $(INCLUDES)
 ifdef MONITORING
     CFLAGS += -DMONITORING
