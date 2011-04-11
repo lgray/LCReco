@@ -1,7 +1,7 @@
 <!-- Pandora settings xml file -->
 
 <pandora>
-    <!-- Global pandora settings -->
+    <!-- HELPER CLASS SETTINGS -->
     <IsMonitoringEnabled> true </IsMonitoringEnabled>
     <ShouldDisplayAlgorithmInfo> false </ShouldDisplayAlgorithmInfo>
 
@@ -12,7 +12,15 @@
     <ElectronFastFunction> FineGranularityElectronId </ElectronFastFunction>
     <MuonFastFunction> FineGranularityMuonId </MuonFastFunction>
 
-<!--<algorithm type = "EventWriting">
+    <!-- CaloHit helper settings -->
+    <CaloHitHelper>
+        <ShouldCalculateDensityWeight>false</ShouldCalculateDensityWeight>
+        <ShouldCalculateSurroundingEnergy>false</ShouldCalculateSurroundingEnergy>
+    </CaloHitHelper>
+
+    <!-- PANDORA ALGORITHM SETTINGS -->
+
+    <!--<algorithm type = "EventWriting">
         <EventFileName>Events.pndr</EventFileName>
         <GeometryFileName>Geometry.pndr</GeometryFileName>
         <ShouldWriteEvents>true</ShouldWriteEvents>
