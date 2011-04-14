@@ -120,7 +120,7 @@ bool ParseCommandLine(int argc, char *argv[], Parameters &parameters)
 {
     int c(0);
 
-    while ((c = getopt(argc, argv, "i:n:t::")) != -1)
+    while ((c = getopt(argc, argv, "i:n:t::h")) != -1)
     {
         switch (c)
         {
@@ -133,7 +133,7 @@ bool ParseCommandLine(int argc, char *argv[], Parameters &parameters)
         case 't':
             parameters.m_shouldDisplayEventTime = true;
             break;
-        case '?':
+        case 'h':
         default:
             std::cout << std::endl << "./bin/PandoraInterface " << std::endl
                       << "    -i PandoraSettings.xml  (mandatory)" << std::endl

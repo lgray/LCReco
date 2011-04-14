@@ -30,8 +30,8 @@
     </algorithm>-->
 
     <algorithm type = "EventReading">
-        <EventFileName>Events.pndr</EventFileName>
-        <GeometryFileName>Geometry.pndr</GeometryFileName>
+        <EventFileName>/usera/marshall/Overlay/CLIC_ILD_CDR_91GeV_Overlay_0.0.pndr</EventFileName>
+        <GeometryFileName>/usera/marshall/Overlay/CLIC_ILD_CDR_Geometry.pndr</GeometryFileName>
         <ShouldReadEvents>true</ShouldReadEvents>
         <ShouldReadGeometry>true</ShouldReadGeometry>
         <SkipToEvent>0</SkipToEvent>
@@ -394,4 +394,7 @@
     <!-- Particle flow object modification algorithms -->
     <algorithm type = "FinalParticleId"/>
     <algorithm type = "V0PfoCreation"/>
+
+    <algorithm type = "DumpPfosMonitoring"/>
+    <algorithm type = "VisualMonitoring"/>
 </pandora>
