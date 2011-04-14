@@ -1,0 +1,10 @@
+************************************************************************
+TAG V00-01 FOR ILCSOFT USAGE
+************************************************************************
+Updated Makefile: changed default compiler to g++ and added -O2 optimization flag.
+Request ROOT linking only if MONITORING flag is specified.
+Enabled commandline configuration of number of events to process.
+Added example PandoraSettings file including EventWriting/EventReading algorithm configuration.
+Geometry can now be read in EventReading algorithm, so removed from PandoraInterface binary.
+Updated Makefile to allow use of monitoring functionality in local algorithms.
+Created simple pandora application that reads pandora geometry and events from pandora binary files.
