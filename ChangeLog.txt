@@ -1,6 +1,7 @@
 ************************************************************************
 TAG V00-01 FOR ILCSOFT USAGE
 ************************************************************************
+Added command line switches and ability to turn event timing on/off.
 Updated Makefile: changed default compiler to g++ and added -O2 optimization flag.
 Request ROOT linking only if MONITORING flag is specified.
 Enabled commandline configuration of number of events to process.
