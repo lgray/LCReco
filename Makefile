@@ -3,7 +3,6 @@ PROJECT_DIR = YOUR_PATH_HERE
 
 #Paths to project dependencies
 PANDORAPFANEW_DIR = YOUR_PATH_HERE
-PANDORAMONITORING_DIR = YOUR_PATH_HERE
 
 PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
 PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
@@ -14,7 +13,7 @@ INCLUDES += -I$(PANDORAPFANEW_DIR)/Framework/include/
 INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/ -I$(PANDORAPFANEW_DIR)/KMeansContent/include/
 ifdef MONITORING
     INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
-    INCLUDES += -I$(PANDORAMONITORING_DIR)/include/
+    INCLUDES += -I$(PANDORAPFANEW_DIR)/Monitoring/include/
 endif
 
 CC = g++
@@ -34,7 +33,7 @@ OBJECTS = $(SOURCES:.cc=.o)
 LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraFramework -lPandoraFineGranularityContent -lPandoraKMeansContent
 ifdef MONITORING
     LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
-    LIBS += -L$(PANDORAMONITORING_DIR)/lib -lPandoraMonitoring
+    LIBS += -lPandoraMonitoring
 endif
 ifdef BUILD_32BIT_COMPATIBLE
     LIBS += -m32
