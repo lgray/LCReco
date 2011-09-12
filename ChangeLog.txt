@@ -1,4 +1,10 @@
 ************************************************************************
+TAG V00-02 FOR ILCSOFT USAGE
+************************************************************************
+Updated standalone makefiles to account for new monitoring location.
+Updated example PandoraSettings file to use new functionality of soft cluster merging and isolated hit merging algorithms.
+
+************************************************************************
 TAG V00-01 FOR ILCSOFT USAGE
 ************************************************************************
 Added command line switches and ability to turn event timing on/off.
