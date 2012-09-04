@@ -9,7 +9,6 @@
 #include "Api/PandoraApi.h"
 
 #include "FineGranularityContent.h"
-#include "KMeansContent.h"
 
 #include "SimpleBFieldCalculator.h"
 
@@ -71,7 +70,6 @@ int main(int argc, char *argv[])
 
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterAlgorithms(*pPandora));
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterHelperFunctions(*pPandora));
-        PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, KMeansContent::RegisterAlgorithms(*pPandora));
 
         // Register local content
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::SetBFieldCalculator(*pPandora,

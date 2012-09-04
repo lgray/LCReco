@@ -10,7 +10,7 @@ PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
 
 INCLUDES  = -I$(PROJECT_INCLUDE_DIR)
 INCLUDES += -I$(PANDORAPFANEW_DIR)/Framework/include/
-INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/ -I$(PANDORAPFANEW_DIR)/KMeansContent/include/
+INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/
 ifdef MONITORING
     INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
     INCLUDES += -I$(PANDORAPFANEW_DIR)/Monitoring/include/
@@ -30,7 +30,7 @@ SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)*.cc)
 
 OBJECTS = $(SOURCES:.cc=.o)
 
-LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraFramework -lPandoraFineGranularityContent -lPandoraKMeansContent
+LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraFramework -lPandoraFineGranularityContent
 ifdef MONITORING
     LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
     LIBS += -lPandoraMonitoring
