@@ -8,6 +8,10 @@ PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
 PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
 PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
 
+ifdef MONITORING
+    DEFINES = -DMONITORING=1
+endif
+
 INCLUDES  = -I$(PROJECT_INCLUDE_DIR)
 INCLUDES += -I$(PANDORAPFANEW_DIR)/Framework/include/
 INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/
@@ -18,10 +22,6 @@ endif
 
 CC = g++
 CFLAGS = -c -Wall -g -w -fPIC -O2
-CFLAGS += $(INCLUDES)
-ifdef MONITORING
-    CFLAGS += -DMONITORING
-endif
 ifdef BUILD_32BIT_COMPATIBLE
     CFLAGS += -m32
 endif
@@ -29,6 +29,7 @@ endif
 SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)*.cc)
 
 OBJECTS = $(SOURCES:.cc=.o)
+DEPENDS = $(OBJECTS:.o=.d)
 
 LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraFramework -lPandoraFineGranularityContent
 ifdef MONITORING
@@ -45,12 +46,15 @@ all: $(OBJECTS) PandoraInterface
 
 PandoraInterface:
 	@echo Creating binary: $(PROJECT_BINARY_DIR)/PandoraInterface
-	$(CC) $(INCLUDES) $(LIBS) $(OBJECTS) -o $(PROJECT_BINARY_DIR)/PandoraInterface
+	$(CC) $(LIBS) $(OBJECTS) -o $(PROJECT_BINARY_DIR)/PandoraInterface
 	@echo Created binary: $(PROJECT_BINARY_DIR)/PandoraInterface
 
+-include $(DEPENDS)
+
 .cc.o:
-	$(CC) $(CFLAGS) $(DEFINES) $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(DEFINES) -MP -MMD -MT $*.o -MT $*.d -MF $*.d -o $*.o $*.cc
 
 clean:
 	rm -f $(OBJECTS)
+	rm -f $(DEPENDS)
 	rm -f $(PROJECT_BINARY_DIR)/PandoraInterface
