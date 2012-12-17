@@ -13,7 +13,7 @@ ifdef MONITORING
 endif
 
 INCLUDES  = -I$(PROJECT_INCLUDE_DIR)
-INCLUDES += -I$(PANDORAPFANEW_DIR)/Framework/include/
+INCLUDES += -I$(PANDORAPFANEW_DIR)/PandoraSDK/include/
 INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/
 ifdef MONITORING
     INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
@@ -31,7 +31,7 @@ SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)*.cc)
 OBJECTS = $(SOURCES:.cc=.o)
 DEPENDS = $(OBJECTS:.o=.d)
 
-LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraFramework -lPandoraFineGranularityContent
+LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraSDK-lPandoraFineGranularityContent
 ifdef MONITORING
     LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
     LIBS += -lPandoraMonitoring
