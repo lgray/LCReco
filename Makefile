@@ -31,10 +31,10 @@ SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)*.cc)
 OBJECTS = $(SOURCES:.cc=.o)
 DEPENDS = $(OBJECTS:.o=.d)
 
-LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraSDK-lPandoraFineGranularityContent
+LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraSDK-lFineGranularityContent
 ifdef MONITORING
     LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
-    LIBS += -lPandoraMonitoring
+    LIBS += -lMonitoring
 endif
 ifdef BUILD_32BIT_COMPATIBLE
     LIBS += -m32
