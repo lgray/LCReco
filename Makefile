@@ -17,7 +17,7 @@ INCLUDES += -I$(PANDORAPFANEW_DIR)/PandoraSDK/include/
 INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/
 ifdef MONITORING
     INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
-    INCLUDES += -I$(PANDORAPFANEW_DIR)/Monitoring/include/
+    INCLUDES += -I$(PANDORAPFANEW_DIR)/PandoraMonitoring/include/
 endif
 
 CC = g++
@@ -34,7 +34,7 @@ DEPENDS = $(OBJECTS:.o=.d)
 LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraSDK-lFineGranularityContent
 ifdef MONITORING
     LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
-    LIBS += -lMonitoring
+    LIBS += -lPandoraMonitoring
 endif
 ifdef BUILD_32BIT_COMPATIBLE
     LIBS += -m32
