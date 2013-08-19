@@ -1,4 +1,12 @@
 ************************************************************************
+TAG V00-03
+************************************************************************
+Updated example PandoraSettings file.
+Contracted library names to match CMake build.
+Makefile update, including basic dependency tracking.
+Remove KMeansContent (currently unused).
+
+************************************************************************
 TAG V00-02 FOR ILCSOFT USAGE
 ************************************************************************
 Updated standalone makefiles to account for new monitoring location.
