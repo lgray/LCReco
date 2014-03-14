@@ -1,23 +1,31 @@
 #Path to project directory
-PROJECT_DIR = YOUR_PATH_HERE
+ifndef PROJECT_DIR
+    PROJECT_DIR = YOUR_PATH_HERE
+endif
 
 #Paths to project dependencies
-PANDORAPFANEW_DIR = YOUR_PATH_HERE
+ifndef PANDORA_DIR
+    PANDORA_DIR = YOUR_PATH_HERE
+endif
 
-PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
-PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
-PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
+ifndef PANDORA_LARCONTENT_DIR
+    PANDORA_LARCONTENT_DIR = YOUR_PATH_HERE
+endif
 
 ifdef MONITORING
     DEFINES = -DMONITORING=1
 endif
 
-INCLUDES  = -I$(PROJECT_INCLUDE_DIR)
-INCLUDES += -I$(PANDORAPFANEW_DIR)/PandoraSDK/include/
-INCLUDES += -I$(PANDORAPFANEW_DIR)/FineGranularityContent/include/
+PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
+PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
+PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
+
+INCLUDES  = -I $(PROJECT_INCLUDE_DIR)
+INCLUDES += -I $(PANDORA_DIR)/PandoraSDK/include/
+INCLUDES += -I $(PANDORA_DIR)/FineGranularityContent/include/
 ifdef MONITORING
-    INCLUDES += -I$(shell $(ROOTSYS)/bin/root-config --incdir)
-    INCLUDES += -I$(PANDORAPFANEW_DIR)/PandoraMonitoring/include/
+    INCLUDES += -I$(shell root-config --incdir)
+    INCLUDES += -I$(PANDORA_DIR)/PandoraMonitoring/include/
 endif
 
 CC = g++
@@ -26,21 +34,22 @@ ifdef BUILD_32BIT_COMPATIBLE
     CFLAGS += -m32
 endif
 
-SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)*.cc)
+SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)/*.cc)
 
 OBJECTS = $(SOURCES:.cc=.o)
 DEPENDS = $(OBJECTS:.o=.d)
 
-LIBS  = -L$(PANDORAPFANEW_DIR)/lib -lPandoraSDK-lFineGranularityContent
+LIBS  = -L$(PANDORA_DIR)/lib -lPandoraSDK -lFineGranularityContent
 ifdef MONITORING
-    LIBS += $(shell $(ROOTSYS)/bin/root-config --glibs)
+    LIBS += $(shell root-config --glibs --evelibs)
     LIBS += -lPandoraMonitoring
 endif
 ifdef BUILD_32BIT_COMPATIBLE
     LIBS += -m32
 endif
 
-LDFLAGS = $(LIBS) -Wl,-rpath
+LDFLAGS  = $(shell root-config --auxcflags)
+LDFLAGS += $(LIBS) -Wl,-rpath
 
 all: $(OBJECTS) PandoraInterface
 

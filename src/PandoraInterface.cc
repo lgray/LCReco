@@ -12,8 +12,13 @@
 
 #include "SimpleBFieldCalculator.h"
 
+#ifdef MONITORING
+#include "TApplication.h"
+#endif
+
 #include <cstdlib>
 #include <iostream>
+#include <unistd.h>
 #include <string>
 #include <sys/time.h>
 
@@ -57,7 +62,10 @@ int main(int argc, char *argv[])
 
         if (!ParseCommandLine(argc, argv, parameters))
             return 1;
-
+#ifdef MONITORING
+        TApplication *pTApplication = new TApplication("MyTest", &argc, argv);
+        pTApplication->SetReturnFromRun(kTRUE);
+#endif
         // Construct pandora instance
         pandora::Pandora *pPandora = new pandora::Pandora();
 
