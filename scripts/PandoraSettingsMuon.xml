@@ -12,12 +12,6 @@
     <ElectronFastFunction> FineGranularityElectronId </ElectronFastFunction>
     <MuonFastFunction> FineGranularityMuonId </MuonFastFunction>
 
-    <!-- CaloHit helper settings -->
-    <CaloHitHelper>
-        <ShouldCalculateDensityWeight>false</ShouldCalculateDensityWeight>
-        <ShouldCalculateSurroundingEnergy>false</ShouldCalculateSurroundingEnergy>
-    </CaloHitHelper>
-
     <!-- PANDORA ALGORITHM SETTINGS -->
 
     <!--<algorithm type = "EventWriting">
