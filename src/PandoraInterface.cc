@@ -10,8 +10,6 @@
 
 #include "FineGranularityContent.h"
 
-#include "SimpleBFieldCalculator.h"
-
 #ifdef MONITORING
 #include "TApplication.h"
 #endif
@@ -70,18 +68,9 @@ int main(int argc, char *argv[])
         pandora::Pandora *pPandora = new pandora::Pandora();
 
         // Register content from external pandora libraries
-        PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::SetPseudoLayerCalculator(*pPandora,
-            new FineGranularityPseudoLayerCalculator()));
-
-        PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::SetShowerProfileCalculator(*pPandora,
-            new FineGranularityShowerProfileCalculator()));
-
-        PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterAlgorithms(*pPandora));
-        PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterHelperFunctions(*pPandora));
-
-        // Register local content
-        PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::SetBFieldCalculator(*pPandora,
-            new SimpleBFieldCalculator()));
+        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterAlgorithms(*pPandora));
+        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterBasicPlugins(*pPandora));
+        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterBFieldPlugin(*pPandora, 4.f, -1.5f, 0.01f));
 
         // Read in the PandoraSettings
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::ReadSettings(*pPandora, parameters.m_pandoraSettingsFile));
