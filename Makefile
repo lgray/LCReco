@@ -19,7 +19,7 @@ PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
 INCLUDES  = -I $(PROJECT_INCLUDE_DIR)
 INCLUDES += -I $(PANDORA_DIR)/include
 INCLUDES += -I $(PANDORA_DIR)/PandoraSDK/include/
-INCLUDES += -I $(PANDORA_DIR)/FineGranularityContent/include/
+INCLUDES += -I $(PANDORA_DIR)/LCContent/include/
 ifdef MONITORING
     INCLUDES += -I$(shell root-config --incdir)
     INCLUDES += -I$(PANDORA_DIR)/PandoraMonitoring/include/
@@ -36,7 +36,7 @@ SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)/*.cc)
 OBJECTS = $(SOURCES:.cc=.o)
 DEPENDS = $(OBJECTS:.o=.d)
 
-LIBS  = -L$(PANDORA_DIR)/lib -lPandoraSDK -lFineGranularityContent
+LIBS  = -L$(PANDORA_DIR)/lib -lPandoraSDK -lLCContent
 ifdef MONITORING
     LIBS += $(shell root-config --glibs --evelibs)
     LIBS += -lPandoraMonitoring

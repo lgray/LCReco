@@ -8,7 +8,7 @@
 
 #include "Api/PandoraApi.h"
 
-#include "FineGranularityContent.h"
+#include "LCContent.h"
 
 #ifdef MONITORING
 #include "TApplication.h"
@@ -68,9 +68,9 @@ int main(int argc, char *argv[])
         pandora::Pandora *pPandora = new pandora::Pandora();
 
         // Register content from external pandora libraries
-        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterAlgorithms(*pPandora));
-        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterBasicPlugins(*pPandora));
-        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, FineGranularityContent::RegisterBFieldPlugin(*pPandora, 4.f, -1.5f, 0.01f));
+        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, LCContent::RegisterAlgorithms(*pPandora));
+        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, LCContent::RegisterBasicPlugins(*pPandora));
+        PANDORA_RETURN_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, LCContent::RegisterBFieldPlugin(*pPandora, 4.f, -1.5f, 0.01f));
 
         // Read in the PandoraSettings
         PANDORA_THROW_RESULT_IF(pandora::STATUS_CODE_SUCCESS, !=, PandoraApi::ReadSettings(*pPandora, parameters.m_pandoraSettingsFile));
