@@ -1,42 +1,21 @@
-#Path to project directory
+ifndef PANDORA_DIR
+    PANDORA_DIR = YOUR_PATH_HERE
+endif
+ifndef PANDORA_LCCONTENT_DIR
+    PANDORA_LCCONTENT_DIR = $(PANDORA_DIR)/LCContent
+endif
 ifndef PROJECT_DIR
     PROJECT_DIR = YOUR_PATH_HERE
 endif
 
-#Paths to project dependencies
-ifndef PANDORA_DIR
-    PANDORA_DIR = YOUR_PATH_HERE
-endif
-
-ifdef MONITORING
-    DEFINES = -DMONITORING=1
-endif
-
-PROJECT_INCLUDE_DIR = $(PROJECT_DIR)/include/
-PROJECT_SOURCE_DIR  = $(PROJECT_DIR)/src/
-PROJECT_BINARY_DIR  = $(PROJECT_DIR)/bin/
-
-INCLUDES  = -I $(PROJECT_INCLUDE_DIR)
-INCLUDES += -I $(PANDORA_DIR)/include
-INCLUDES += -I $(PANDORA_DIR)/PandoraSDK/include/
-INCLUDES += -I $(PANDORA_DIR)/LCContent/include/
-ifdef MONITORING
-    INCLUDES += -I$(shell root-config --incdir)
-    INCLUDES += -I$(PANDORA_DIR)/PandoraMonitoring/include/
-endif
-
 CC = g++
-CFLAGS = -c -Wall -g -w -fPIC -O2
+CFLAGS = -c -g -fPIC -O2 -Wall -Wextra -pedantic -Wno-long-long -Wshadow -Werror -ansi
 ifdef BUILD_32BIT_COMPATIBLE
     CFLAGS += -m32
 endif
 
-SOURCES = $(wildcard $(PROJECT_SOURCE_DIR)/*.cc)
-
-OBJECTS = $(SOURCES:.cc=.o)
-DEPENDS = $(OBJECTS:.o=.d)
-
-LIBS  = -L$(PANDORA_DIR)/lib -lPandoraSDK -lLCContent
+LIBS  = -L$(PANDORA_LCCONTENT_DIR)/lib -lLCContent
+LIBS += -L$(PANDORA_DIR)/lib -lPandoraSDK
 ifdef MONITORING
     LIBS += $(shell root-config --glibs --evelibs)
     LIBS += -lPandoraMonitoring
@@ -45,22 +24,36 @@ ifdef BUILD_32BIT_COMPATIBLE
     LIBS += -m32
 endif
 
-LDFLAGS  = $(shell root-config --auxcflags)
-LDFLAGS += $(LIBS) -Wl,-rpath
+PROJECT_BINARY = $(PROJECT_DIR)/bin/PandoraInterface
 
-all: $(OBJECTS) PandoraInterface
+INCLUDES  = -I $(PROJECT_DIR)/include/
+INCLUDES += -I $(PANDORA_DIR)/PandoraSDK/include/
+INCLUDES += -I $(PANDORA_LCCONTENT_DIR)/include/
+ifdef MONITORING
+    INCLUDES += -I $(shell root-config --incdir)
+    INCLUDES += -I $(PANDORA_DIR)/PandoraMonitoring/include/
+endif
 
-PandoraInterface:
-	@echo Creating binary: $(PROJECT_BINARY_DIR)/PandoraInterface
-	$(CC) $(LIBS) $(OBJECTS) -o $(PROJECT_BINARY_DIR)/PandoraInterface
-	@echo Created binary: $(PROJECT_BINARY_DIR)/PandoraInterface
+ifdef MONITORING
+    DEFINES = -DMONITORING=1
+endif
+
+SOURCES  =  $(wildcard $(PROJECT_DIR)/src/*.cc)
+SOURCES +=  $(wildcard $(PROJECT_DIR)/test/*.cc)
+OBJECTS = $(SOURCES:.cc=.o)
+DEPENDS = $(OBJECTS:.o=.d)
+
+all: binary
+
+binary: $(OBJECTS) 
+	$(CC) $(OBJECTS) $(LIBS) -o $(PROJECT_BINARY)
 
 -include $(DEPENDS)
 
-.cc.o:
+%.o:%.cc
 	$(CC) $(CFLAGS) $(INCLUDES) $(DEFINES) -MP -MMD -MT $*.o -MT $*.d -MF $*.d -o $*.o $*.cc
 
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(DEPENDS)
-	rm -f $(PROJECT_BINARY_DIR)/PandoraInterface
+	rm -f $(PROJECT_BINARY)
