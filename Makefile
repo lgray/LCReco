@@ -27,6 +27,7 @@ endif
 PROJECT_BINARY = $(PROJECT_DIR)/bin/PandoraInterface
 
 INCLUDES  = -I $(PROJECT_DIR)/include/
+INCLUDES += -I $(PANDORA_DIR)/include/
 INCLUDES += -I $(PANDORA_DIR)/PandoraSDK/include/
 INCLUDES += -I $(PANDORA_LCCONTENT_DIR)/include/
 ifdef MONITORING
