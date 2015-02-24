@@ -1,11 +1,5 @@
-ifndef PANDORA_DIR
-    PANDORA_DIR = YOUR_PATH_HERE
-endif
 ifndef PANDORA_LCCONTENT_DIR
     PANDORA_LCCONTENT_DIR = $(PANDORA_DIR)/LCContent
-endif
-ifndef PROJECT_DIR
-    PROJECT_DIR = YOUR_PATH_HERE
 endif
 
 CC = g++
@@ -27,7 +21,6 @@ endif
 PROJECT_BINARY = $(PROJECT_DIR)/bin/PandoraInterface
 
 INCLUDES  = -I $(PROJECT_DIR)/include/
-INCLUDES += -I $(PANDORA_DIR)/include/
 INCLUDES += -I $(PANDORA_DIR)/PandoraSDK/include/
 INCLUDES += -I $(PANDORA_LCCONTENT_DIR)/include/
 ifdef MONITORING
